@@ -1,6 +1,7 @@
 
 const User = require('../Models/user.model')
 const bcrypt = require('bcrypt')
+// const jwt = require('jsonwebtoken')
 
 
  const listUsersAll = async(res) => {
@@ -108,9 +109,17 @@ const hashPass = async (pass) =>{
 const insertUser = async (req,res) =>{
     const {name,email , password , birth_day, avatar_url,access } = req.body
 
+    const dataFound = await User.findOne({email: email})
+    if(dataFound){
+
+        res.send({response: "Email already exists"})
+        return
+    }
+
     const cryptedPass = await hashPass(password);
     // console.log("Out of ", newPass);
 
+    
     const user = new User({
         name: name,
         email: email,
@@ -119,6 +128,7 @@ const insertUser = async (req,res) =>{
         avatar_url: avatar_url,
         access: access
     })
+
     user.save()
     .then(()=>{
         res.status(200).send({response: `User ${name} added successfully! :)`})
@@ -136,14 +146,36 @@ const insertUser = async (req,res) =>{
 
 
 const login = async (req,res) =>{
+    const {email , password } = req.body
     if(req.body){         
-        res.send(req.body.email)
-        return
+        dataFound = await User.findOne({email: email})
+        
+        if (!dataFound) {
+            res.send({response: "authentication fail"})
+            return
+        }
+        
+        bcrypt.compare(password,dataFound.password ,(err,succes) => {
+            if (err) {
+                console.log(err);
+            }
+            if (succes) {
+                res.send({FakeToken:"gfaWdw3dsssaaaasdaavHGcffx3rssOzvdfOfdfRxxcdcszc",response: "Be Welcome :) "})
+            }else{
+                res.send({response: "authentication fail"})
+            }
+        })
+        
+    }else{
+        res.send({response: "Check if you sent email and password"})
     }
-    res.send({response: "Operation < LOG IN > out of service.... try later"})
+
+
+    // res.send({response: "Operation < LOG IN > out of service.... try later"})
 }
 
 const recoverPassword = async (req,res) =>{
+    
     res.send({response: "Operation < RECOVER PASSWORD > out of service.... try later"})
 }
 module.exports = {

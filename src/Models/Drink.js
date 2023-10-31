@@ -4,7 +4,7 @@ const Drink = mongoose.model('bebidas',{
     name: String,
     categoria:String,
     descricao: String,
-    preco:String,
+    preco: Number,
     caloria:String
 })
 

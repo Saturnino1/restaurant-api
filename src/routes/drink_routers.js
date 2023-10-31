@@ -1,10 +1,9 @@
-const Drink = require('../models/Drink')
-const drink_control = require('../controller/drink_controll')
+const drink_control = require('../controllers/drink_controll')
 const route = require('express').Router()
 
 
 //************************List**************************** */
-route.get('/drinks', (req,res) => drink_control.listDrinks(res))
+route.get('/drinks', (_,res) => drink_control.listDrinks(res))
 
 
 //************************GetById************************* */
