@@ -1,9 +1,12 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+
 const UserRoutes = require('./routes/user.routes.js')
 const RestauRoutes = require('./routes/restaurant.routes.js')
-const dotenv = require('dotenv')
+const DrinkRoutes = require('./routes/drink_routers.js')
+
 const port = 5000
 
      App = express()
@@ -21,19 +24,20 @@ const port = 5000
 
     App.use('/api',UserRoutes)
     App.use('/api',RestauRoutes) 
+    App.use('/api',DrinkRoutes) 
 
 
 
 App.listen(port, ()=> {
 
-   mongoose.connect(process.env.DB_CONECTION)   
+   mongoose.connect(process.env.MONGO_URL)   
    .then(()=>{
         console.log(" Sucessful connection :) ");
    }) 
    .catch(err =>{
         console.log("Connection failled :( --"+err.message);
    })
-    console.log(`Listennig on port ${port} ... > ${process.env.VARI} < ...`) 
+    console.log(`Listennig on port ${port}...`) 
 
 })
 
