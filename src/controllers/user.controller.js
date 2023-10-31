@@ -1,7 +1,7 @@
 
 const User = require('../Models/user.model')
 const bcrypt = require('bcrypt')
-// const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 
  const listUsersAll = async(res) => {
@@ -10,11 +10,8 @@ const bcrypt = require('bcrypt')
 
         res.send( user )
 
-   
     // res.send({response: "Operation < LIST ALL USERS > out of service.... try later"})
 }
-
-
 
 
 const listUsersAdmin = async (res) =>{
@@ -160,9 +157,10 @@ const login = async (req,res) =>{
                 console.log(err);
             }
             if (succes) {
+                // ---->       >>> Create a Token and send <<<
                 res.send({FakeToken:"gfaWdw3dsssaaaasdaavHGcffx3rssOzvdfOfdfRxxcdcszc",response: "Be Welcome :) "})
             }else{
-                res.send({response: "authentication fail"})
+                res.send({response: "authentication fail"})  /// PASSWORD incorrect
             }
         })
         
@@ -175,8 +173,23 @@ const login = async (req,res) =>{
 }
 
 const recoverPassword = async (req,res) =>{
-    
-    res.send({response: "Operation < RECOVER PASSWORD > out of service.... try later"})
+    // const {email} = req.body.email
+    // res.send({response: "Recover required by "+req.body.email })
+    const user = await User.findOne({email: req.body.email})
+    .then((item)=>{
+        const payload = {
+            name: item.name,
+            email: item.email
+        }
+        const token = jwt.sign(payload, process.env.RECOVER_KEY ,{expiresIn: "1h"})
+        // const reset_url = 
+        res.send({recoverPass_link: `http://127.0.0.1:5000/user/reset-password/${item._id}/${token}` })
+        // res.status(403).send([{token:token},item])
+    })
+    .catch(()=>{
+        res.status(403).send({response: "Failled"})
+    })
+    // res.send({response: "Operation < RECOVER PASSWORD > out of service.... try later"})
 }
 module.exports = {
     listUsersAll,

@@ -3,9 +3,11 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 
-const UserRoutes = require('./routes/user.routes.js')
+const UserRoutes   = require('./routes/user.routes.js')
 const RestauRoutes = require('./routes/restaurant.routes.js')
-const DrinkRoutes = require('./routes/drink_routers.js')
+const DrinkRoutes  = require('./routes/drink.routes.js')
+const PlateRoutes  = require('./routes/plate.routes.js')
+const OrderRoutes  = require('./routes/order.routes.js')
 
 const port = 5000
 
@@ -25,6 +27,8 @@ const port = 5000
     App.use('/api',UserRoutes)
     App.use('/api',RestauRoutes) 
     App.use('/api',DrinkRoutes) 
+    App.use('/api',PlateRoutes) 
+    App.use('/api',OrderRoutes) 
 
 
 

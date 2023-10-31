@@ -1,5 +1,5 @@
 
-const Drink = require('../models/Drink')
+const Drink = require('../Models/drink.model')
 
 
 
@@ -9,10 +9,12 @@ exports.createDrink =  async(req,res) =>{
     
     const drink = new Drink({
         name: req.body.name,
-        categoria: req.body.categoria,
-        descricao: req.body.descricao,
-        preco: req.body.preco,
-        caloria: req.body.caloria
+        category: req.body.category,
+        description: req.body.description,
+        price: req.body.price,
+        restaurantId: req.body.resrestaurantId,
+        calorie: req.body.calorie,
+        drink_img: req.body.drink_img
     })
     drink.save()
     .then(()=> {
@@ -57,10 +59,12 @@ exports.deleteDrinkById = async(Id) =>{
 exports.updateDrink = async(req,res) =>{
     const drink = await Drink.findByIdAndUpdate(req.params.id,{
         name: req.body.name,
-        categoria: req.body.categoria,
-        descricao: req.body.descricao,
-        preco: req.body.preco,
-        caloria: req.body.caloria
+        category: req.body.category,
+        description: req.body.description,
+        price: req.body.price,
+        restaurantId: req.body.resrestaurantId,
+        calorie: req.body.calorie,
+        drink_img: req.body.drink_img
     },
     )
     drink.save()

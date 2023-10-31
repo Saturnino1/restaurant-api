@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Restau = mongoose.Schema({
+const Restau = new mongoose.Schema({
     name: {
         type: String,
         required: true

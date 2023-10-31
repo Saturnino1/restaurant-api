@@ -13,6 +13,8 @@ const UserController = require('../controllers/user.controller')
     
     Route.get('/user/:id',(req,res) => UserController.listUserById(req,res))
     
+    Route.get('/user/reset-password/:id/:token',(req,res) => UserController.resetPassword(req,res))
+    
 
 
 
@@ -23,7 +25,8 @@ const UserController = require('../controllers/user.controller')
         Route.post('/login',(req,res) => UserController.login(req,res) )
         //- - - - - - > RECOVER PASSWORD < - - - - - - 
         Route.post('/login/recover-password',(req,res) => UserController.recoverPassword(req,res) )
-     
+        // Route.post('/login/recover-password',(req,res) => UserController.recoverPassword(req,res) )
+
 
 
 

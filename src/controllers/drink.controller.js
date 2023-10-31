@@ -1,5 +1,5 @@
-const Drink = require('../models/Drink')
-const drink_service = require('../service/drinkService')
+const Drink = require('../Models/drink.model')
+const drink_service = require('../service/drink.service')
 
 
 

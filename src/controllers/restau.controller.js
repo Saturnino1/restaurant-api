@@ -1,4 +1,6 @@
 const Restaurant = require('../Models/restau.model')
+const Plate = require('../Models/plate.model')
+const Drink = require('../Models/drink.model')
 
 
 const listRestaurantAll = async (res) => {
@@ -18,6 +20,39 @@ const listRestaurantById = async (req, res) => {
     res.send(restau)
 
     // res.send({response: "Operation < LIST SPECIFIQUE USER > out of service.... try later"})
+}
+
+const listRestaurantByIdProduct = async (req,res) =>{
+
+    const plates = await Plate.find({restaurantId: req.params.id})
+
+    const drinks = await Drink.find({restaurantId: req.params.id})
+
+    if(drinks && plates){
+        res.send([plates,drinks])
+    }
+    if(!drinks && plates){
+        res.send(plates)
+    }
+    if(drinks && !plates){
+        res.send(drinks)
+    }
+    // res.send({response: "No data found!"})    
+}
+
+
+const listRestaurantByIdDrinks = async (req,res)=>{
+    const plates = await Plate.find({restaurantId: req.params.id})
+
+        res.send(plates)
+        
+}
+
+const listRestaurantByIdPlates = async (req,res)=>{
+    const drinks = await Drink.find({restaurantId: req.params.id})
+
+        res.send(drinks)
+
 }
 
 
@@ -77,6 +112,7 @@ const insertRestaurant = async (req, res) => {
 
     // res.send({response: "Operation < INSERT USER > out of service.... try later"})
 
+    
 }
 /** --------------------------------------------------------------------- */
 
@@ -84,6 +120,10 @@ const insertRestaurant = async (req, res) => {
 module.exports = {
     listRestaurantAll,
     listRestaurantById,
+    listRestaurantByIdProduct,
+    listRestaurantByIdPlates,
+    listRestaurantByIdDrinks,
+
     updateRestaurantById,
     deleteRestaurantById,
     insertRestaurant

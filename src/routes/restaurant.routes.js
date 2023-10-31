@@ -9,8 +9,13 @@ const RestauController = require('../controllers/restau.controller')
     
     Route.get('/restaurant/:id',(req,res) => RestauController.listRestaurantById(req,res))
     
+    Route.get('/restaurant/:id/product',(req,res) => RestauController.listRestaurantByIdProduct(req,res))
+    Route.get('/restaurant/:id/plates',(req,res) => RestauController.listRestaurantByIdDrinks(req,res))
+    Route.get('/restaurant/:id/drinks',(req,res) => RestauController.listRestaurantByIdPlates(req,res))
 
 
+
+    
 
     /*********************  POST  ***********************/
     Route.post('/restaurant/create',(req,res) => RestauController.insertRestaurant(req,res))
