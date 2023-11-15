@@ -2,7 +2,6 @@ const Plate = require('../Models/plate.model')
 const plateService = require('../service/plate.service')
 
 exports.createPlate = async (req, res) => {
-    console.log("testing")
     try {
         const plate = await plateService.createPlate(req.body)
         res.json(plate)

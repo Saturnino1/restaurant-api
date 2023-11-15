@@ -1,13 +1,18 @@
 const Restaurant = require('../Models/restau.model')
 const Plate = require('../Models/plate.model')
 const Drink = require('../Models/drink.model')
+const RestaurantService = require('../service/restaurant.service')
 
 
 const listRestaurantAll = async (res) => {
 
-    const restau = await Restaurant.find()
-
-    res.send(restau)
+    try {
+        const restau = await RestaurantService.listRestaurantAll()    
+        res.status(200).send(restau)
+    } catch (error) {
+        res.status(404).send({response: error.message })
+        
+    }
 
     // res.send({response: "Operation < LIST ALL USERS > out of service.... try later"})
 }
@@ -15,43 +20,46 @@ const listRestaurantAll = async (res) => {
 
 
 const listRestaurantById = async (req, res) => {
-
-    const restau = await Restaurant.findById(req.params.id)
-    res.send(restau)
+    try {
+        const restau = await RestaurantService.listRestaurantById(req.params.id)
+        res.status(200).send(restau)
+    } catch (error) {
+        res.status(404).send({sms: "Error while bring data[restauraant unique] from database!",response: error.message })
+    }
 
     // res.send({response: "Operation < LIST SPECIFIQUE USER > out of service.... try later"})
 }
 
 const listRestaurantByIdProduct = async (req,res) =>{
 
-    const plates = await Plate.find({restaurantId: req.params.id})
+    try{
+        const products = await RestaurantService.listRestaurantByIdProduct(req.params.id)
+        res.send(products)
+    }catch (error) {
+        res.status(404).send({response: "Error while bring data [product from restaurant] from database!",errorMessage: error.message })
+    }
 
-    const drinks = await Drink.find({restaurantId: req.params.id})
-
-    if(drinks && plates){
-        res.send([plates,drinks])
-    }
-    if(!drinks && plates){
-        res.send(plates)
-    }
-    if(drinks && !plates){
-        res.send(drinks)
-    }
+    
     // res.send({response: "No data found!"})    
 }
 
 
 const listRestaurantByIdDrinks = async (req,res)=>{
-    const plates = await Plate.find({restaurantId: req.params.id})
-
-        res.send(plates)
-        
+    try{
+        const drinks = await RestaurantService.listRestaurantByIdDrinks( req.params.id )
+            res.send(drinks)   
+    }catch (error) {
+        res.status(404).send({response: "Error while bring data[drinks from restaurant] from database!",errorMessage: error.message })
+    }
 }
 
 const listRestaurantByIdPlates = async (req,res)=>{
-    const drinks = await Drink.find({restaurantId: req.params.id})
-
-        res.send(drinks)
+    try{
+        const plates = await RestaurantService.listRestaurantByIdPlates( req.params.id )
+            res.status(200).send(plates)   
+    }catch (error) {
+        res.status(404).send({response: "Error while bring data [plates] from database!",errorMessage: error.message })
+    }
 
 }
 
@@ -59,21 +67,13 @@ const listRestaurantByIdPlates = async (req,res)=>{
 
 
 const updateRestaurantById = async (req, res) => {
-    const { name, email, sede, avatar_url } = req.body
-    const restau = {
-        name: name,
-        email: email,
-        sede: sede,
-        avatar_url: avatar_url
+
+    try{
+        const resp = await RestaurantService.updateRestaurantById(req.params.id,req.body)
+        res.send(resp)
+    }catch (error) {
+        res.status(404).send({response: "Error while update data [Restaurant] from database!",errorMessage: error.message })
     }
-    //  findByIdAndUpdate
-    await Restaurant.findByIdAndUpdate(req.params.id, restau)
-        .then(() => {
-            res.send({ respnse: "updated successfully :)" })
-        })
-        .catch(() => {
-            res.send({ respnse: "Failled on save :(" })
-        })
 
     // res.send({response: "Operation < UPDATE USER > out of service.... try later"})
 }
@@ -82,10 +82,12 @@ const updateRestaurantById = async (req, res) => {
 
 
 const deleteRestaurantById = async (req, res) => {
-
-    await Restaurant.findByIdAndRemove(req.params.id)
-
-    res.send({ response: `Restaurant with id << ${req.params.id} >> delected successfullly! ` })
+    try{
+        const resp = await RestaurantService.deleteRestaurantById(req.params.id)
+        res.status(200).send(resp)
+    }catch (error) {
+        res.status(404).send({response: "Error while remove data [restaurant] from database!",errorMessage: error.message })
+    }
 
     // res.send({response: "Operation < DELETE USER > out of service.... try later"})
 }

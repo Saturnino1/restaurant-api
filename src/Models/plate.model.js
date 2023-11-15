@@ -19,9 +19,9 @@ const platesShema = new mongoose.Schema(
             required: true,
         },
         ingredients: [String],
-        plateImge: {
+        img_url: {
             type: String,
-            default: ""
+            default: "https://t3.ftcdn.net/jpg/02/48/42/64/240_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg"
         },
         restaurantId:{
             type: String,

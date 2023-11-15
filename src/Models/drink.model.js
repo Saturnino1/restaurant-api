@@ -7,7 +7,7 @@ const Drink = mongoose.model('drinks',{
     price: Number,
     restaurantId: String,
     calorie: String,
-    drink_img: String
+    img_url: String
 })
 
 module.exports = Drink

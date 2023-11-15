@@ -8,6 +8,7 @@ const RestauRoutes = require('./routes/restaurant.routes.js')
 const DrinkRoutes  = require('./routes/drink.routes.js')
 const PlateRoutes  = require('./routes/plate.routes.js')
 const OrderRoutes  = require('./routes/order.routes.js')
+const ProductRoutes= require('./routes/product.routes.js')
 
 const port = 5000
 
@@ -22,13 +23,12 @@ const port = 5000
           next();
      });
    
-
-
     App.use('/api',UserRoutes)
     App.use('/api',RestauRoutes) 
     App.use('/api',DrinkRoutes) 
     App.use('/api',PlateRoutes) 
     App.use('/api',OrderRoutes) 
+    App.use('/api',ProductRoutes) 
 
 
 

@@ -20,7 +20,7 @@ route.delete('/drinks/delete/:id', (req,res) => drink_control.deleteDrinkById(re
 
 
 //************************Update*************************** */
-route.put('/drinks/upate/:id', (req,res) => drink_control.updateDrink(req,res))
+route.put('/drinks/update/:id', (req,res) => drink_control.updateDrink(req,res))
 
 
 module.exports = route
